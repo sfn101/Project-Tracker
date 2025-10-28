@@ -1,0 +1,99 @@
+# Project Management Tests
+# Base URL
+@baseURL = http://localhost:4000/api
+
+# Variables (Update these after getting tokens and user IDs)
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDEwNjEzZjBjZjYxNzlhNmU0NWI3MiIsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzYxNjc0OTI2LCJleHAiOjE3NjE2Nzg1MjZ9.t5f625iJSEjt2KwFUmC74QD_wfTz2H_PJzinF_3qn1g
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDEwNTczZjBjZjYxNzlhNmU0NWI2ZSIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjE2NzUwODMsImV4cCI6MTc2MTY3ODY4M30.WCCGYa5tV3j2HqmwjXnM_SVZ8vzIQHDAFzhwrQYXSdU
+@userId = 69010613f0cf6179a6e45b72
+@projectId = PROJECT_ID_HERE
+
+### Get all projects for a user
+GET {{baseURL}}/users/{{userId}}/projects
+Authorization: Bearer {{userToken}}
+
+### Get projects with pagination
+GET {{baseURL}}/users/{{userId}}/projects?page=1&limit=5
+Authorization: Bearer {{userToken}}
+
+### Get projects without token (should fail)
+GET {{baseURL}}/users/{{userId}}/projects
+
+### Create a new project
+POST {{baseURL}}/users/{{userId}}/projects
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "My First Project",
+  "description": "This is a test project for development",
+  "status": "pending"
+}
+
+### Create another project
+POST {{baseURL}}/users/{{userId}}/projects
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "E-commerce Website",
+  "description": "Building an online store with React and Node.js",
+  "status": "in_progress"
+}
+
+### Create project without authorization (should fail)
+POST {{baseURL}}/users/{{userId}}/projects
+Content-Type: application/json
+
+{
+  "name": "Unauthorized Project",
+  "description": "This should fail",
+  "status": "pending"
+}
+
+### Create project with invalid status (should fail)
+POST {{baseURL}}/users/{{userId}}/projects
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Invalid Status Project",
+  "description": "This project has invalid status",
+  "status": "invalid_status"
+}
+
+### Get specific project by ID
+GET {{baseURL}}/users/{{userId}}/projects/{{projectId}}
+Authorization: Bearer {{userToken}}
+
+### Get project without token (should fail)
+GET {{baseURL}}/users/{{userId}}/projects/{{projectId}}
+
+### Update project
+PUT {{baseURL}}/users/{{userId}}/projects/{{projectId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Updated Project Name",
+  "description": "Updated description for the project",
+  "status": "completed"
+}
+
+### Update project with admin token
+PUT {{baseURL}}/users/{{userId}}/projects/{{projectId}}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "name": "Admin Updated Project",
+  "description": "Updated by admin",
+  "status": "in_progress"
+}
+
+### Delete project
+DELETE {{baseURL}}/users/{{userId}}/projects/{{projectId}}
+Authorization: Bearer {{userToken}}
+
+### Delete project without authorization (should fail)
+DELETE {{baseURL}}/users/{{userId}}/projects/{{projectId}}

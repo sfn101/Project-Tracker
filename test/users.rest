@@ -1,0 +1,89 @@
+# User Management Tests
+# Base URL
+@baseURL = http://localhost:4000/api
+
+# Variables (Update these tokens after login)
+@adminToken = YOUR_ADMIN_JWT_TOKEN_HERE
+@userToken = YOUR_USER_JWT_TOKEN_HERE
+@userId = USER_ID_HERE
+
+### Get all users (Admin only)
+GET {{baseURL}}/users
+Authorization: Bearer {{adminToken}}
+
+### Get all users with pagination (Admin only)
+GET {{baseURL}}/users?page=1&limit=5
+Authorization: Bearer {{adminToken}}
+
+### Get all users without token (should fail)
+GET {{baseURL}}/users
+
+### Get all users with user token (should fail - admin only)
+GET {{baseURL}}/users
+Authorization: Bearer {{userToken}}
+
+### Create a new user (Admin only)
+POST {{baseURL}}/users
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "name": "Jane Smith",
+  "email": "jane.smith@example.com",
+  "password": "password123",
+  "role": "member",
+  "status": "active"
+}
+
+### Create user without admin token (should fail)
+POST {{baseURL}}/users
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "password123",
+  "role": "member",
+  "status": "active"
+}
+
+### Get specific user by ID (Owner or Admin)
+GET {{baseURL}}/users/{{userId}}
+Authorization: Bearer {{userToken}}
+
+### Get specific user by ID (Admin)
+GET {{baseURL}}/users/{{userId}}
+Authorization: Bearer {{adminToken}}
+
+### Get specific user without token (should fail)
+GET {{baseURL}}/users/{{userId}}
+
+### Update user (Owner or Admin)
+PUT {{baseURL}}/users/{{userId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "John Doe Updated",
+  "email": "john.doe.updated@example.com"
+}
+
+### Update user (Admin)
+PUT {{baseURL}}/users/{{userId}}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "name": "John Doe Admin Updated",
+  "role": "admin",
+  "status": "inactive"
+}
+
+### Delete user (Owner or Admin)
+DELETE {{baseURL}}/users/{{userId}}
+Authorization: Bearer {{adminToken}}
+
+### Delete user without permission (should fail)
+DELETE {{baseURL}}/users/{{userId}}
+Authorization: Bearer {{userToken}}

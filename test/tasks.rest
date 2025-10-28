@@ -1,0 +1,104 @@
+# Task Management Tests
+# Base URL
+@baseURL = http://localhost:4000/api
+
+# Variables (Update these after getting tokens, user IDs, and project IDs)
+@userToken = YOUR_USER_JWT_TOKEN_HERE
+@adminToken = YOUR_ADMIN_JWT_TOKEN_HERE
+@userId = USER_ID_HERE
+@projectId = PROJECT_ID_HERE
+@taskId = TASK_ID_HERE
+
+### Get all tasks for a project
+GET {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks
+Authorization: Bearer {{userToken}}
+
+### Get tasks with pagination
+GET {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks?page=1&limit=5
+Authorization: Bearer {{userToken}}
+
+### Get tasks without token (should fail)
+GET {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks
+
+### Create a new task
+POST {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Setup development environment",
+  "status": "pending"
+}
+
+### Create another task
+POST {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Design database schema",
+  "status": "in_progress"
+}
+
+### Create task with completed status
+POST {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Initialize Git repository",
+  "status": "completed"
+}
+
+### Create task without authorization (should fail)
+POST {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks
+Content-Type: application/json
+
+{
+  "name": "Unauthorized Task",
+  "status": "pending"
+}
+
+### Create task with invalid status (should fail)
+POST {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Invalid Status Task",
+  "status": "invalid_status"
+}
+
+### Get specific task by ID
+GET {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks/{{taskId}}
+Authorization: Bearer {{userToken}}
+
+### Get task without token (should fail)
+GET {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks/{{taskId}}
+
+### Update task
+PUT {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks/{{taskId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Updated Task Name",
+  "status": "completed"
+}
+
+### Update task with admin token
+PUT {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks/{{taskId}}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "name": "Admin Updated Task",
+  "status": "in_progress"
+}
+
+### Delete task
+DELETE {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks/{{taskId}}
+Authorization: Bearer {{userToken}}
+
+### Delete task without authorization (should fail)
+DELETE {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks/{{taskId}}

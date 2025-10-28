@@ -1,0 +1,138 @@
+# Complete API Test Flow
+# This file provides a complete testing flow from user registration to task management
+
+# Base URL
+@baseURL = http://localhost:4000/api
+
+### Step 1: Register Admin User
+POST {{baseURL}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Admin User",
+  "email": "adminnew@test.com",
+  "password": "admin123",
+  "role": "admin"
+}
+
+### Step 2: Register Regular User
+POST {{baseURL}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "johnnew@test.com",
+  "password": "password123",
+  "role": "member"
+}
+
+### Step 3: Login as Admin (Copy the token from response)
+POST {{baseURL}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "adminnew@test.com",
+  "password": "admin123"
+}
+
+### Step 4: Login as User (Copy the token from response)
+POST {{baseURL}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "johnnew@test.com",
+  "password": "password123"
+}
+
+
+### Update these variables with actual values from above responses
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDExMDQzYzhjYTM3NDI4ZWUwOWJkMCIsImVtYWlsIjoiYWRtaW5uZXdAdGVzdC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjE2NzczOTYsImV4cCI6MTc2MTY4MDk5Nn0.Bm-QLCrYv-zgymi9n7RUwzJXPtyaBkAQf8JxUQc07gw
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDExMDRkYzhjYTM3NDI4ZWUwOWJkMiIsImVtYWlsIjoiam9obm5ld0B0ZXN0LmNvbSIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE3NjE2Nzc0MzgsImV4cCI6MTc2MTY4MTAzOH0.n_z4Ia8ayqpc68BtR1bjgzq4xs0pl31EQQnwAmxL_o0
+@userId = 6901104dc8ca37428ee09bd2
+# ============================================
+
+### Step 5: Get all users (Admin only)
+GET {{baseURL}}/users
+Authorization: Bearer {{adminToken}}
+
+### Step 6: Get user profile
+GET {{baseURL}}/users/{{userId}}
+Authorization: Bearer {{userToken}}
+
+### Step 7: Create a project
+POST {{baseURL}}/users/{{userId}}/projects
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "My Test Project",
+  "description": "A project to test the API",
+  "status": "pending"
+}
+
+### ============================================
+### Update this variable with the project ID from above response
+@projectId = 69011332b5cc7c6562cea002
+# ============================================
+
+### Step 8: Get all projects for user
+GET {{baseURL}}/users/{{userId}}/projects
+Authorization: Bearer {{userToken}}
+
+### Step 9: Create tasks for the project
+POST {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Setup project structure",
+  "status": "pending"
+}
+
+### Step 10: Create another task
+POST {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Write API documentation",
+  "status": "in_progress"
+}
+
+### ============================================
+### Update this variable with a task ID from above responses
+@taskId = 69011368b5cc7c6562cea008
+### ============================================
+
+### Step 11: Get all tasks for the project
+GET {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks
+Authorization: Bearer {{userToken}}
+
+### Step 12: Update a task
+PUT {{baseURL}}/users/{{userId}}/projects/{{projectId}}/tasks/{{taskId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "Setup project structure (Updated)",
+  "status": "completed"
+}
+
+### Step 13: Update project status
+PUT {{baseURL}}/users/{{userId}}/projects/{{projectId}}
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "name": "My Test Project (Updated)",
+  "description": "A project to test the API - now updated",
+  "status": "in_progress"
+}
+
+### Step 14: Test error cases - Invalid endpoint
+GET {{baseURL}}/invalid-endpoint
+Authorization: Bearer {{userToken}}
+
+### Step 15: Test error cases - Unauthorized access
+GET {{baseURL}}/users
+Authorization: Bearer {{userToken}}
