@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
+import { STATUS_CODES } from "#@/_shared/enums/httpStatusCodes.js";
 
 export function auth(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ success: false, message: "Unauthorized" });
+    return res.status(STATUS_CODES.UNAUTHORIZED).json({ success: false, message: "Unauthorized" });
   }
 
   const token = authHeader.substring(7);
@@ -12,6 +13,6 @@ export function auth(req, res, next) {
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({ success: false, message: "Invalid token" });
+    return res.status(STATUS_CODES.UNAUTHORIZED).json({ success: false, message: "Invalid token" });
   }
 }

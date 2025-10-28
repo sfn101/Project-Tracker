@@ -10,7 +10,7 @@ function checkUserOwnership(req, res, next) {
   if (req.user.role === "admin" || req.user.id === userId) {
     return next();
   }
-  return res.status(403).json({ success: false, message: "Forbidden" });
+  return res.status(STATUS_CODES.FORBIDDEN).json({ success: false, message: "Forbidden" });
 }
 
 function checkProjectOwnership(req, res, next) {
@@ -19,7 +19,7 @@ function checkProjectOwnership(req, res, next) {
   if (req.project.userId.toString() === userId) {
     return next();
   }
-  return res.status(403).json({ success: false, message: "Forbidden" });
+  return res.status(STATUS_CODES.FORBIDDEN).json({ success: false, message: "Forbidden" });
 }
 
 // GET /users/:userId/projects/:projectId - Get project by ID
@@ -34,7 +34,7 @@ router.get("/", auth, checkUserOwnership, async (req, res, next) => {
     }
 
     if (data.userId.toString() !== userId) {
-      return res.status(403).json({ success: false, message: "Forbidden" });
+      return res.status(STATUS_CODES.FORBIDDEN).json({ success: false, message: "Forbidden" });
     }
 
     res.status(STATUS_CODES.OK).json({ success: true, data });
@@ -50,7 +50,7 @@ router.delete("/", auth, checkUserOwnership, async (req, res, next) => {
 
     const project = await projectServices.fetchById({ id: projectId });
     if (!project || project.userId.toString() !== userId) {
-      return res.status(403).json({ success: false, message: "Forbidden" });
+      return res.status(STATUS_CODES.FORBIDDEN).json({ success: false, message: "Forbidden" });
     }
 
     const data = await projectServices.deleteById({ id: projectId });
@@ -72,7 +72,7 @@ router.put("/", auth, checkUserOwnership, async (req, res, next) => {
 
     const project = await projectServices.fetchById({ id: projectId });
     if (!project || project.userId.toString() !== userId) {
-      return res.status(403).json({ success: false, message: "Forbidden" });
+      return res.status(STATUS_CODES.FORBIDDEN).json({ success: false, message: "Forbidden" });
     }
 
     const data = await projectServices.updateById({

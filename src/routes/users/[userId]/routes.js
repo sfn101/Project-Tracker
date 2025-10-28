@@ -10,7 +10,7 @@ function checkOwnership(req, res, next) {
   if (req.user.role === "admin" || req.user.id === userId) {
     return next();
   }
-  return res.status(403).json({ success: false, message: "Forbidden" });
+  return res.status(STATUS_CODES.FORBIDDEN).json({ success: false, message: "Forbidden" });
 }
 
 // GET /users/:userId - Get user by ID
