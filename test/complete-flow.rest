@@ -46,7 +46,7 @@ Content-Type: application/json
 
 
 ### Update these variables with actual values from above responses
-@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDExMDQzYzhjYTM3NDI4ZWUwOWJkMCIsImVtYWlsIjoiYWRtaW5uZXdAdGVzdC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjE2NzczOTYsImV4cCI6MTc2MTY4MDk5Nn0.Bm-QLCrYv-zgymi9n7RUwzJXPtyaBkAQf8JxUQc07gw
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDExMDQzYzhjYTM3NDI4ZWUwOWJkMCIsImVtYWlsIjoiYWRtaW5uZXdAdGVzdC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjE2ODE3NjQsImV4cCI6MTc2MTY4NTM2NH0.Jt-saYdgdX_bDddTvaVzPkIfoge6XAOI3M-fklX6NtQ
 @userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDExMDRkYzhjYTM3NDI4ZWUwOWJkMiIsImVtYWlsIjoiam9obm5ld0B0ZXN0LmNvbSIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE3NjE2Nzc0MzgsImV4cCI6MTc2MTY4MTAzOH0.n_z4Ia8ayqpc68BtR1bjgzq4xs0pl31EQQnwAmxL_o0
 @userId = 6901104dc8ca37428ee09bd2
 # ============================================
