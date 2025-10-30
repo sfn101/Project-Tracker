@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import routes from "#@/routes/users/[userId]/projects/[projectId]/tasks/[taskId]/routes.js";
+import routes from "./routes.js";
 
 const router = Router({ mergeParams: true });
 

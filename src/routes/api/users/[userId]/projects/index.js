@@ -1,8 +1,8 @@
 import { Router } from "express";
 import mongoose from "mongoose";
 
-import routes from "#@/routes/users/[userId]/projects/routes.js";
-import projectIdRoutes from "#@/routes/users/[userId]/projects/[projectId]/index.js";
+import routes from "./routes.js";
+import projectIdRoutes from "./[projectId]/index.js";
 
 const router = Router({ mergeParams: true });
 

@@ -1,0 +1,9 @@
+/* Custom styles for Project Tracker */
+:root {
+  --primary: #14b8a6; /* teal-500 */
+  --secondary: #0f766e; /* teal-600 */
+  --primary-dark: #115e59; /* teal-700 */
+  --secondary-dark: #0d4f4a; /* teal-800 */
+}
+
+/* Tailwind CSS will be loaded via CDN in layout */

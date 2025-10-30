@@ -1,0 +1,280 @@
+<div class="px-4 py-6 sm:px-0">
+  <div id="projectHeader">
+    <!-- Project header will be loaded here -->
+  </div>
+
+  <!-- Tasks Section -->
+  <div class="mt-8">
+    <div class="sm:flex sm:items-center mb-6">
+      <div class="sm:flex-auto">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Tasks</h2>
+        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">Manage tasks for this project.</p>
+      </div>
+      <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+        <button onclick="openCreateTaskModal()"
+          class="inline-flex items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          New Task
+        </button>
+      </div>
+    </div>
+
+    <!-- Tasks List -->
+    <div id="tasksContainer" class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md">
+      <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+        <!-- Tasks will be loaded here -->
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Project Modal -->
+<div id="editProjectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden"
+  onclick="closeEditProjectModal()">
+  <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white dark:bg-gray-800"
+    onclick="event.stopPropagation()">
+    <div class="mt-3">
+      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Edit Project</h3>
+      <form id="editProjectForm">
+        <div class="mb-4">
+          <label for="editProjectName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Project
+            Name</label>
+          <input type="text" id="editProjectName" name="name" required
+            class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
+        </div>
+        <div class="mb-4">
+          <label for="editProjectDescription"
+            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
+          <textarea id="editProjectDescription" name="description" rows="3"
+            class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"></textarea>
+        </div>
+        <div class="mb-4">
+          <label for="editProjectStatus"
+            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+          <select id="editProjectStatus" name="status"
+            class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
+            <option value="pending">Pending</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div class="flex justify-end space-x-3">
+          <button type="button" onclick="closeEditProjectModal()"
+            class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600">Cancel</button>
+          <button type="submit"
+            class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-secondary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Create Task Modal -->
+<div id="createTaskModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden"
+  onclick="closeCreateTaskModal()">
+  <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white dark:bg-gray-800"
+    onclick="event.stopPropagation()">
+    <div class="mt-3">
+      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Create New Task</h3>
+      <form id="createTaskForm">
+        <div class="mb-4">
+          <label for="taskName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Task Name</label>
+          <input type="text" id="taskName" name="name" required
+            class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
+        </div>
+        <div class="mb-4">
+          <label for="taskStatus" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+          <select id="taskStatus" name="status"
+            class="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
+            <option value="pending">Pending</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div class="flex justify-end space-x-3">
+          <button type="button" onclick="closeCreateTaskModal()"
+            class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600">Cancel</button>
+          <button type="submit"
+            class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-secondary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const user = {{{ userJson }}};
+  const projectId = '{{projectId}}';
+  let currentProject = null;
+
+  async function loadProject() {
+    try {
+      const response = await apiRequest(`/api/users/${user.id}/projects/${projectId}`);
+      const project = response.data;
+      currentProject = project;
+
+      const header = document.getElementById('projectHeader');
+      header.innerHTML = `
+      <div class="md:flex md:items-center md:justify-between">
+        <div class="flex-1 min-w-0">
+          <h1 class="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:truncate">${project.name}</h1>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">${project.description}</p>
+        </div>
+        <div class="mt-4 flex md:mt-0 md:ml-4">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${project.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+          project.status === 'in_progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' :
+            'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+        }">
+            ${project.status.replace('_', ' ')}
+          </span>
+          <button onclick="editProject()" class="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+            Edit
+          </button>
+        </div>
+      </div>
+    `;
+    } catch (error) {
+      console.error('Failed to load project:', error);
+      showToast('Failed to load project details', 'error');
+    }
+  }
+
+  async function loadTasks() {
+    try {
+      const response = await apiRequest(`/api/users/${user.id}/projects/${projectId}/tasks`);
+      const tasks = response.data.data || [];
+
+      const container = document.querySelector('#tasksContainer ul');
+      if (tasks.length === 0) {
+        container.innerHTML = `
+        <li class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+          No tasks yet. Create your first task.
+        </li>
+      `;
+      } else {
+        container.innerHTML = tasks.map(task => `
+        <li class="px-6 py-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <p class="text-sm font-medium text-gray-900 dark:text-white truncate">${task.name}</p>
+              <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${task.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+            task.status === 'in_progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' :
+              'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+          }">
+                ${task.status.replace('_', ' ')}
+              </span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <select onchange="updateTaskStatus('${task._id}', this.value)" class="text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white">
+                <option value="pending" ${task.status === 'pending' ? 'selected' : ''}>Pending</option>
+                <option value="in_progress" ${task.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
+                <option value="completed" ${task.status === 'completed' ? 'selected' : ''}>Completed</option>
+              </select>
+              <button onclick="deleteTask('${task._id}')" class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 text-sm">Delete</button>
+            </div>
+          </div>
+        </li>
+      `).join('');
+      }
+    } catch (error) {
+      console.error('Failed to load tasks:', error);
+      showToast('Failed to load project tasks', 'error');
+    }
+  }
+
+  function openCreateTaskModal() {
+    document.getElementById('createTaskModal').classList.remove('hidden');
+  }
+
+  function closeCreateTaskModal() {
+    document.getElementById('createTaskModal').classList.add('hidden');
+    document.getElementById('createTaskForm').reset();
+  }
+
+  document.getElementById('createTaskForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const taskData = Object.fromEntries(formData);
+
+    try {
+      await apiRequest(`/api/users/${user.id}/projects/${projectId}/tasks`, {
+        method: 'POST',
+        body: JSON.stringify(taskData)
+      });
+      closeCreateTaskModal();
+      loadTasks();
+    } catch (error) {
+      console.error('Failed to create task:', error);
+      showToast('Failed to create task: ' + error.message, 'error');
+    }
+  });
+
+  async function updateTaskStatus(taskId, status) {
+    try {
+      await apiRequest(`/api/users/${user.id}/projects/${projectId}/tasks/${taskId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ status })
+      });
+      // Status updated, no need to reload
+    } catch (error) {
+      console.error('Failed to update task:', error);
+      showToast('Failed to update task: ' + error.message, 'error');
+      loadTasks(); // Reload to revert changes
+    }
+  }
+
+  async function deleteTask(taskId) {
+    if (!confirm('Are you sure you want to delete this task?')) return;
+
+    try {
+      await apiRequest(`/api/users/${user.id}/projects/${projectId}/tasks/${taskId}`, {
+        method: 'DELETE'
+      });
+      loadTasks();
+    } catch (error) {
+      console.error('Failed to delete task:', error);
+      showToast('Failed to delete task: ' + error.message, 'error');
+    }
+  }
+
+  function editProject() {
+    if (!currentProject) return;
+
+    document.getElementById('editProjectName').value = currentProject.name;
+    document.getElementById('editProjectDescription').value = currentProject.description || '';
+    document.getElementById('editProjectStatus').value = currentProject.status;
+
+    document.getElementById('editProjectModal').classList.remove('hidden');
+  }
+
+  function closeEditProjectModal() {
+    document.getElementById('editProjectModal').classList.add('hidden');
+    document.getElementById('editProjectForm').reset();
+  }
+
+  document.getElementById('editProjectForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const projectData = Object.fromEntries(formData);
+
+    try {
+      await apiRequest(`/api/users/${user.id}/projects/${projectId}`, {
+        method: 'PUT',
+        body: JSON.stringify(projectData)
+      });
+      closeEditProjectModal();
+      loadProject();
+    } catch (error) {
+      console.error('Failed to update project:', error);
+      showToast('Failed to update project: ' + error.message, 'error');
+    }
+  });
+
+  // Load initial data when DOM is ready
+  document.addEventListener('DOMContentLoaded', function () {
+    loadProject();
+    loadTasks();
+  });
+</script>

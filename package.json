@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node src/main.js",
-    "dev": "nodemon src/main.js",
+    "dev": "nodemon  src/main.js",
     "seed": "node seed/seed.js"
   },
   "imports": {
@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "express-handlebars": "^8.0.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.2"
   },

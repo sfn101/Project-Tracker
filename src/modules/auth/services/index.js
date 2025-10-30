@@ -5,7 +5,7 @@ import model from "#@/modules/auth/model/index.js";
 const SALT_ROUNDS = 10;
 
 async function signup({ payload }) {
-  const { name, email, password, role = "member" } = payload;
+  const { name, email, password, role = "user" } = payload;
 
   const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
@@ -34,7 +34,7 @@ async function login({ payload }) {
   }
 
   const token = jwt.sign(
-    { id: user._id, email: user.email, role: user.role },
+    { id: user._id, email: user.email, role: user.role, name: user.name },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );

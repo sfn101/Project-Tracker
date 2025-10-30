@@ -1,16 +1,34 @@
-import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-
-import connectDB from "#@/databases/connect-mongo.js";
-import routes from "#@/routes/index.js";
+import express from "express";
+import { engine } from "express-handlebars";
+import path from "path";
 import { STATUS_CODES } from "#@/_shared/enums/httpStatusCodes.js";
+import connectDB from "#@/databases/connect-mongo.js";
+import apiRoutes from "#@/routes/api/index.js";
+import pageRoutes from "#@/routes/pages/index.js";
+
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT;
+
+// Set up Handlebars view engine
+app.engine(
+  "hbs",
+  engine({
+    extname: ".hbs",
+    defaultLayout: "main",
+    layoutsDir: path.join(process.cwd(), "src", "views", "layouts"),
+    helpers: {
+      eq: (a, b) => a === b,
+    },
+  })
+);
+app.set("view engine", "hbs");
+app.set("views", path.join(process.cwd(), "src", "views"));
 
 // Load environment variables
-dotenv.config();
 
 // CORS middleware
 app.use(cors());
@@ -24,23 +42,25 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files from the public folder
 app.use(express.static("public"));
 
+// Prevent caching of API responses
+app.use("/api", (req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
+  next();
+});
+
 // Custom middleware
 app.use((req, _, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   next();
 });
 
-// Load Routes
-app.use("/api", routes);
+// Load API Routes
+app.use("/api", apiRoutes);
 
-//404 error
-app.use((req, res, next) => {
-  res.status(STATUS_CODES.NOT_FOUND).json({
-    success: false,
-    error: "Not Found",
-    message: "Endpoint not found",
-  });
-});
+// Load Page Routes
+app.use("/", pageRoutes);
 
 app.use((err, req, res, next) => {
   res.status(STATUS_CODES.SERVER_ERROR).json({

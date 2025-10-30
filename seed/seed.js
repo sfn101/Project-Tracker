@@ -23,14 +23,14 @@ const fakeUsers = [
     name: "John Doe",
     email: "john@test.com",
     password: "password123",
-    role: "member",
+    role: "user",
     status: "active",
   },
   {
     name: "Jane Smith",
     email: "jane@test.com",
     password: "password123",
-    role: "member",
+    role: "user",
     status: "active",
   },
 ];
@@ -129,7 +129,6 @@ async function seedDatabase() {
     console.log("Admin: admin@test.com / admin123");
     console.log("User: john@test.com / password123");
     console.log("User: jane@test.com / password123");
-
   } catch (error) {
     console.error("❌ Error seeding database:", error);
   } finally {

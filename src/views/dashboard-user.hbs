@@ -1,0 +1,163 @@
+<div class="px-4 py-6 sm:px-0">
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Welcome back, {{user.name}}!</p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+              </path>
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Projects</dt>
+              <dd class="text-lg font-medium text-gray-900 dark:text-white" id="totalProjects">0</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+              </path>
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Active Tasks</dt>
+              <dd class="text-lg font-medium text-gray-900 dark:text-white" id="activeTasks">0</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Completed Tasks</dt>
+              <dd class="text-lg font-medium text-gray-900 dark:text-white" id="completedTasks">0</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="bg-white dark:bg-gray-800 shadow rounded-lg mb-8">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+      <div class="flex flex-wrap gap-4">
+        <a href="javascript:void(0)" onclick="navigateWithAuth('/projects')"
+          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary">
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          View Projects
+        </a>
+        <a href="javascript:void(0)" onclick="navigateWithAuth('/tasks')"
+          class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+            </path>
+          </svg>
+          View Tasks
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Projects -->
+  <div class="bg-white dark:bg-gray-800 shadow rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">Recent Projects</h3>
+      <div id="recentProjects" class="space-y-4">
+        <!-- Projects will be loaded here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const user = {{{ userJson }}};
+
+  async function loadDashboard() {
+    try {
+      // Load projects
+      const projectsResponse = await apiRequest(`/api/users/${user.id}/projects`);
+      const projects = projectsResponse.data.data || [];
+
+      document.getElementById('totalProjects').textContent = projects.length;
+
+      // Load tasks from all projects
+      let activeTasks = 0;
+      let completedTasks = 0;
+
+      for (const project of projects.slice(0, 5)) { // Recent 5 projects
+        const tasksResponse = await apiRequest(`/api/users/${user.id}/projects/${project._id}/tasks`);
+        const tasks = tasksResponse.data.data || [];
+        activeTasks += tasks.filter(t => t.status === 'pending' || t.status === 'in_progress').length;
+        completedTasks += tasks.filter(t => t.status === 'completed').length;
+      }
+
+      document.getElementById('activeTasks').textContent = activeTasks;
+      document.getElementById('completedTasks').textContent = completedTasks;
+
+      // Display recent projects
+      const recentProjectsDiv = document.getElementById('recentProjects');
+      if (projects.length === 0) {
+        recentProjectsDiv.innerHTML = '<p class="text-gray-500 dark:text-gray-400">No projects yet. <a href="/projects" class="text-primary">Create your first project</a></p>';
+      } else {
+        recentProjectsDiv.innerHTML = projects.slice(0, 5).map(project => `
+        <div class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div>
+            <h4 class="text-sm font-medium text-gray-900 dark:text-white">${project.name}</h4>
+            <p class="text-sm text-gray-500 dark:text-gray-400">${project.description}</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${project.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+            project.status === 'in_progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' :
+              'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+          }">
+              ${project.status.replace('_', ' ')}
+            </span>
+            <a href="/projects/${project._id}" class="text-primary hover:text-secondary text-sm">View</a>
+          </div>
+        </div>
+      `).join('');
+      }
+    } catch (error) {
+      console.error('Failed to load dashboard:', error);
+      showToast('Failed to load dashboard data', 'error');
+    }
+  }
+
+  // Load dashboard when page is ready
+  document.addEventListener('DOMContentLoaded', function () {
+    loadDashboard();
+  });
+</script>

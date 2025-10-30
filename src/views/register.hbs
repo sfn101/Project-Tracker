@@ -1,0 +1,65 @@
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+        Create your account
+      </h2>
+    </div>
+    <form class="mt-8 space-y-6" id="registerForm">
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div>
+          <label for="name" class="sr-only">Full Name</label>
+          <input id="name" name="name" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-white dark:bg-gray-800" placeholder="Full Name">
+        </div>
+        <div>
+          <label for="email" class="sr-only">Email address</label>
+          <input id="email" name="email" type="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-white dark:bg-gray-800" placeholder="Email address">
+        </div>
+        <div>
+          <label for="password" class="sr-only">Password</label>
+          <input id="password" name="password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm bg-white dark:bg-gray-800" placeholder="Password">
+        </div>
+        <input type="hidden" name="role" value="user">
+      </div>
+
+      <div class="text-sm">
+        <a href="/login" class="font-medium text-primary hover:text-secondary">
+          Already have an account? Sign in
+        </a>
+      </div>
+
+      <div>
+        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          Create Account
+        </button>
+      </div>
+
+      <div id="errorMessage" class="hidden text-red-600 dark:text-red-400 text-sm text-center"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const role = 'user';
+  const errorDiv = document.getElementById('errorMessage');
+
+  try {
+    const response = await apiRequest('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ name, email, password, role })
+    });
+
+    if (response.success) {
+      window.location.href = '/login?registered=true';
+    }
+  } catch (error) {
+    errorDiv.textContent = error.message;
+    errorDiv.classList.remove('hidden');
+  }
+});
+</script>
